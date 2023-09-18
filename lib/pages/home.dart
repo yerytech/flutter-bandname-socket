@@ -68,27 +68,43 @@ List<Band> bands=[
   }
    
 
-   addNewBand(){
+   addNewBand(){ 
+    
       final textController= TextEditingController();
-      showAdaptiveDialog(context: context, builder: (context){
+      showAdaptiveDialog(
+        barrierDismissible: false,
+        context: context, builder: (context){
          return  AlertDialog.adaptive(
           title: const Text('New Band Name '),
           content: TextField(
            controller: textController,
 
-          ), actions: [MaterialButton(
+          ), actions: [  MaterialButton(
+            textColor: Colors.blue,
+            onPressed:(){
+              if(textController.text.length>1){
+                bands.add(Band(id: DateTime.now().toString(),name: textController.text,votes: 0));
+              }
+                 setState(() {
+                   
+                 }); 
+                 Navigator.pop(context);
+            },
+            child: const Text('Add')),  MaterialButton(
             textColor: Colors.blue,
             onPressed: (){
 
-              log(textController.text);
+              Navigator.pop(context);
             },
-            child: const Text('Add'))],
+            child: const Text('Close'))],
          );
-      });
+      }); 
+    
+   
      
-       }
-     
-     
+       } 
+
+
      
    }
 
