@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
+
 class StatusPage extends StatelessWidget {
 const StatusPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final socketservice= Provider.of<SocketService>(context);
+    
     return  Scaffold(
       body: Center(
         child: Column(
@@ -16,6 +18,14 @@ const StatusPage({Key? key}) : super(key: key);
           Text('Server Status:${socketservice.serverStatus}'),
         ],),
      ),
+     floatingActionButton: FloatingActionButton(
+      child: const Icon(Icons.message),
+      onPressed: (){
+        socketservice.socket.emit('mensaje',{
+          'nombre':'Juan',
+          'mensaje':'hola desde flutetr'
+        });
+      }),
    );
   }
 }

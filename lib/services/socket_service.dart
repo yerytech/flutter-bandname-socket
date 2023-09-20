@@ -1,6 +1,8 @@
 
 
 
+
+
 import 'package:flutter/material.dart';
 
 // ignore: library_prefixes
@@ -13,8 +15,10 @@ enum ServerStatus {
 class SocketService with ChangeNotifier {
 
   ServerStatus _serverStatus =ServerStatus.coneccting;
+   IO.Socket? _socket;
 
-  get serverStatus => _serverStatus;
+   ServerStatus get serverStatus => _serverStatus;
+   IO.Socket get socket =>_socket!;
 
   SocketService(){
    _initConfig();
@@ -24,26 +28,22 @@ class SocketService with ChangeNotifier {
 
   void _initConfig(){
     // Dart client
-  IO.Socket socket = IO.io('http://localhost:3000/',{
+  _socket = IO.io('http://192.168.0.109:3000/',{
     'transports':['websocket'],
     'autoConet':true,
   });
-  socket.onConnect((_) {
+  _socket!.onConnect((_) {
   
     _serverStatus = ServerStatus.online;
     notifyListeners();
     
   });
   
-  socket.onDisconnect((_){
+  _socket!.onDisconnect((_){
     _serverStatus = ServerStatus.offline;
     notifyListeners();  
   });
-  socket.on('Nuevo-mensaje',(payload){
-    print('Nuevo mensaje: $payload');
-  });
-
-     
+ 
 
 
 
